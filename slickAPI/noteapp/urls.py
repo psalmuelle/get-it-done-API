@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    path("note/create", views.create_note),
-    path("note/get/<int:pk>", views.get_note),
-    path("note/delete/<int:pk>", views.delete_note)
+    path("note/create/", views.create_note),
+    path("note/get/<int:pk>/", views.get_note),
+    path("note/delete/<int:pk>/", views.delete_note)
 ]
