@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -136,3 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK ={
     "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",)
 }
+
+django_heroku.settings(locals())

@@ -58,3 +58,12 @@ def update_todolist(request, pk):
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+@api_view(["GET"])
+def get_todolist(request,pk):
+    todo_id = pk
+    if request.method == "GET":
+        todolist = TodoList.objects.filter(todo_id = todo_id)
+        serializer = TodoListSerializer(todolist, many=True)
+        return Response(serializer.data) 

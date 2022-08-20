@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include("users.urls")),
     path("api/", include("noteapp.urls")),
-    path("api/", include("plannerapp.urls"))
+    path("api/", include("plannerapp.urls")),
+    path("api/",include("taskapp.urls")),
     
 ]
