@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'noteapp',
     'plannerapp',
+    'taskapp',
     
 ]
 

@@ -20,9 +20,9 @@ def create_note(request):
 
 @api_view(["GET"])
 def get_note(request,pk):
-    userId = pk 
+    generated_by = pk 
     if request.method == "GET":
-        notes= NoteApp.objects.filter(generated_by=userId)
+        notes= NoteApp.objects.filter(generated_by=generated_by)
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
 
