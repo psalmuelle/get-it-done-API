@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 class PlannerSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only= True)
-    user = serializers.PrimaryKeyRelatedField(read_only= True)
+    user = serializers.PrimaryKeyRelatedField(read_only= True, many=False)
     plan = serializers.CharField(max_length= 200)
     created_on = serializers.DateTimeField(read_only=True)
 

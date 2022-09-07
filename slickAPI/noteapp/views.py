@@ -6,7 +6,7 @@ from .serializers import NoteSerializer
 from knox.auth import TokenAuthentication
 
 @api_view(["POST", "GET"])
-def create_note(request):
+def note(request):
     token = request.META.get("HTTP_AUTHORIZATION", False)
     if token: 
         token = str(token).split()[1].encode("utf-8")

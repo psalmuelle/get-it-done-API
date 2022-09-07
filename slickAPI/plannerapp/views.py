@@ -1,32 +1,30 @@
-from email import message
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import PlannerApp
 from .serializers import PlannerSerializer
+from knox.auth import TokenAuthentication
 
+@api_view(["POST", "GET"])
+def plan(request):
+    token = request.META.get("HTTP_AUTHORIZATION", False)
+    if token: 
+        token = str(token).split()[1].encode("utf-8")
+        knoxAuth = TokenAuthentication()
+        user, auth_token = knoxAuth.authenticate_credentials(token)
+        request.user = user
+        if request.method == "POST":
+            serializer = PlannerSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(user = request.user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(["POST"])
-def create_plan(request):
-   
-    if request.method == "POST":
-        serializer = PlannerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-@api_view(["GET"])
-def get_plan(request):
-     
-    if request.method == "GET":
-        plans= PlannerApp.objects.filter(user= request.user)
-        serializer = PlannerSerializer(plans, many=True)
-        return Response(serializer.data)
-
+        elif request.method == "GET":
+            notes = PlannerApp.objects.filter(user = request.user)
+            serializer = PlannerSerializer(notes, many=True)
+            return Response(serializer.data)
 
 
 @api_view(["DELETE"])
