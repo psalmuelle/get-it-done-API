@@ -1,19 +1,24 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
 
+
 class Todo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=200)
-    generated_by = models.IntegerField()
     deadline= models.DateField()
+    
+
 
 
 
 class TodoList(models.Model):
     list = models.TextField(max_length=100)
     completed = models.BooleanField(default=False)
-    todo_id = models.IntegerField()
+    user= models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    todoid= models.IntegerField()
+    lists= models.ForeignKey(Todo(), on_delete=models.CASCADE, null=True)
 

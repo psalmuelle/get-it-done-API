@@ -20,10 +20,10 @@ def create_plan(request):
 
 
 @api_view(["GET"])
-def get_plan(request,pk):
-    userId = pk 
+def get_plan(request):
+     
     if request.method == "GET":
-        plans= PlannerApp.objects.filter(generated_by=userId)
+        plans= PlannerApp.objects.filter(user= request.user)
         serializer = PlannerSerializer(plans, many=True)
         return Response(serializer.data)
 

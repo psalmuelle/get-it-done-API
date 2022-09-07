@@ -19,10 +19,10 @@ def create_note(request):
 
 
 @api_view(["GET"])
-def get_note(request,pk):
-    generated_by = pk 
+def get_note(request):
+     
     if request.method == "GET":
-        notes= NoteApp.objects.filter(generated_by=generated_by)
+        notes= NoteApp.objects.filter(user = request.user)
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
 
@@ -31,7 +31,7 @@ def get_note(request,pk):
 @api_view(["DELETE"])
 def delete_note(request, pk):
     try: 
-        notes = NoteApp.objects.get(pk= pk)
+        notes = NoteApp.objects.get(pk = pk)
     except NoteApp.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

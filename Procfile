@@ -1,1 +1,0 @@
-web: gunicorn --pythonpath slickAPI slickAPI.wsgi --log-file -

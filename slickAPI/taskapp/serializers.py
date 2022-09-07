@@ -1,15 +1,20 @@
-from email.policy import default
 from rest_framework import serializers
 from .models import Todo, TodoList
+
+
+
+
 
 
 
 class TodoSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only= True)
     title= serializers.CharField(max_length= 100)
-    generated_by = serializers.IntegerField()
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     description=serializers.CharField(max_length=200)
     deadline = serializers.DateField()
+    
+
    
 
     def create(self, validated_data):
@@ -19,13 +24,13 @@ class TodoSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.id = validated_data.get("id", instance.id)
         instance.title = validated_data.get("title", instance.title)
-        instance.generated_by = validated_data.get("generated_by", instance.generated_by)
+        instance.user = validated_data.get("user", instance.user)
         instance.description = validated_data.get("description", instance.description)
         instance.deadline = validated_data.get("deadline", instance.deadline)
+       
 
         instance.save()
         return instance
-
 
 
 
@@ -33,7 +38,8 @@ class TodoListSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only = True)
     list = serializers.CharField(max_length= 100)
     completed=serializers.BooleanField(default=False)
-    todo_id = serializers.IntegerField()
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    todoid= serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         return TodoList.objects.create(**validated_data)
@@ -43,11 +49,12 @@ class TodoListSerializer(serializers.Serializer):
         instance.id = validated_data.get("id", instance.id)
         instance.list = validated_data.get("list", instance.list)
         instance.completed = validated_data.get("completed", instance.completed)
-        instance.todo_id = validated_data.get("todo_id", instance.todo_id)
- 
+        instance.user = validated_data.get("user", instance.user)
+        instance.todoid = validated_data.get("todoid", instance.todoid)
 
         instance.save()
         return instance
+
 
 
 

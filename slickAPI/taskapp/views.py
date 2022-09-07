@@ -19,10 +19,10 @@ def create_todo(request):
 
 
 @api_view(["GET"])
-def get_todo(request,pk):
-    generated_by = pk
+def get_todo(request):
+    
     if request.method == "GET":
-        todos = Todo.objects.filter(generated_by = generated_by)
+        todos = Todo.objects.filter(user = request.user)
         serializer = TodoSerializer(todos, many=True)
         return Response(serializer.data) 
 
@@ -62,8 +62,9 @@ def update_todolist(request, pk):
 
 @api_view(["GET"])
 def get_todolist(request,pk):
-    todo_id = pk
+    
+    todoid = pk
     if request.method == "GET":
-        todolist = TodoList.objects.filter(todo_id = todo_id)
+        todolist = TodoList.objects.filter(todoid = todoid)
         serializer = TodoListSerializer(todolist, many=True)
         return Response(serializer.data) 
