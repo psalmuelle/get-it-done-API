@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 class NoteSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only= True)
-    user = serializers.PrimaryKeyRelatedField(read_only= True)
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     title = serializers.CharField(max_length= 100)
     note = serializers.CharField(max_length=1000)
     created_on = serializers.DateTimeField(read_only=True)
