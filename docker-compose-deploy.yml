@@ -1,0 +1,28 @@
+version: '3.7'
+
+
+
+services:
+  slick:
+    build: 
+      context: .
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY='django-insecure-ro0=f7cetc3ynn52n^yy&r^f-&bo-@1rh-*-u1zl5+^3gl%yo0'
+      - ALLOWED_HOSTS=127.0.0.1, localhost
+  
+
+  proxy:
+    build: 
+      context: ./proxy
+    volumes:
+    - static_data:/vol/static_data
+    ports:
+      - "8080:8080"
+    depends_on:
+      - slick
+
+
+volumes:
+  static_data:
