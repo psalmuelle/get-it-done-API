@@ -8,8 +8,9 @@ services:
       context: .
     volumes:
       - static_data:/vol/web
+    env_file:
+      - slickAPI/.env
     environment:
-      - SECRET_KEY='django-insecure-ro0=f7cetc3ynn52n^yy&r^f-&bo-@1rh-*-u1zl5+^3gl%yo0'
       - ALLOWED_HOSTS=127.0.0.1, localhost
   
 

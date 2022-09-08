@@ -92,7 +92,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -150,7 +150,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/static'
 STATIC_ROOT = "/vol/web/static"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" # new
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
