@@ -38,8 +38,7 @@ class TodoListSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only = True)
     list = serializers.CharField(max_length= 100)
     completed=serializers.BooleanField(default=False)
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    todoid= serializers.PrimaryKeyRelatedField(read_only=True)
+    todoid= serializers.IntegerField()
 
     def create(self, validated_data):
         return TodoList.objects.create(**validated_data)
@@ -49,7 +48,6 @@ class TodoListSerializer(serializers.Serializer):
         instance.id = validated_data.get("id", instance.id)
         instance.list = validated_data.get("list", instance.list)
         instance.completed = validated_data.get("completed", instance.completed)
-        instance.user = validated_data.get("user", instance.user)
         instance.todoid = validated_data.get("todoid", instance.todoid)
 
         instance.save()
@@ -58,17 +56,3 @@ class TodoListSerializer(serializers.Serializer):
 
 
 
-{
-"title": "Create an editable content on the social media platform",
-"generated_by": "1",
-"description": "You are who you are yesterday, today and forever more, I am grateful",
-"deadline": "2022-12-03"
-}
-
-{
-    "id": 1,
-    "title": "Create an editable content on the social media platform",
-    "generated_by": 1,
-    "description": "You are who you are yesterday, today and forever more, I am grateful",
-    "deadline": "2022-12-03"
-}
