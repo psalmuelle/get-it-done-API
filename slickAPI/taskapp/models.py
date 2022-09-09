@@ -18,5 +18,7 @@ class Todo(models.Model):
 class TodoList(models.Model):
     list = models.TextField(max_length=100)
     completed = models.BooleanField(default=False)
+    user= models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     todoid= models.IntegerField()
+    lists= models.ForeignKey(Todo(), on_delete=models.CASCADE, null=True)
 
