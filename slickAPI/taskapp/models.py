@@ -4,19 +4,20 @@ from django.contrib.auth.models import User
 
 
 
+class TodoList(models.Model):
+    list = models.TextField(max_length=100)
+    completed = models.BooleanField(default=False)
+   
+
 
 class Todo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=200)
     deadline= models.DateField()
+    lists = models.ManyToManyField(TodoList)
     
 
 
 
-
-class TodoList(models.Model):
-    list = models.TextField(max_length=100)
-    completed = models.BooleanField(default=False)
-    todoid= models.IntegerField()
 

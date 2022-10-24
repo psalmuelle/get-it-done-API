@@ -22,8 +22,8 @@ def todo(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         elif request.method == "GET":
-            notes = Todo.objects.filter(user = request.user)
-            serializer = TodoSerializer(notes, many=True)
+            todos = Todo.objects.filter(user = request.user)
+            serializer = TodoSerializer(todos, many=True)
             return Response(serializer.data)
 
 
@@ -37,6 +37,23 @@ def delete_todo(request,pk):
 
     todos.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+@api_view(["PUT"])
+def update_todo(request, pk):
+    todo = Todo.objects.get(pk=pk)
+    
+    serializer = TodoSerializer(todo, data=request.data, partial=True)
+    if serializer.is_valid():
+       
+        serializer.save()
+        
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 #TodoList views
@@ -63,10 +80,10 @@ def update_todolist(request, pk):
 
 
 @api_view(["GET"])
-def get_todolist(request,pk):
+def get_todolist(request):
     
-    todoid = pk
+    
     if request.method == "GET":
-        todolist = TodoList.objects.filter(todoid = todoid)
+        todolist = TodoList.objects.all()
         serializer = TodoListSerializer(todolist, many=True)
         return Response(serializer.data) 
