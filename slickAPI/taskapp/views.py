@@ -1,5 +1,3 @@
-from functools import partial
-from wsgiref.util import request_uri
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -41,35 +39,23 @@ def delete_todo(request,pk):
 
 
 
-@api_view(["PUT"])
-def update_todo(request, pk):
-    todo = Todo.objects.get(pk=pk)
-    todolist = TodoList(list = request.data.get("list"), completed=request.data.get("list") )
-    todolist.save()
-    upna= {"list" : request.data.get("list"), "completed":request.data.get("list")}
-    todo.lists.add()
-    todo.save()
-    serializer = TodoSerializer(todo, data=request.data, partial=True)
-    if serializer.is_valid():
-       
-        serializer.save()
-        
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
 #TodoList views
 
 @api_view(["POST"])
 def create_todolist(request):
-    serializer = TodoListSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    token = request.META.get("HTTP_AUTHORIZATION", False)
+    if token: 
+        token = str(token).split()[1].encode("utf-8")
+        knoxAuth = TokenAuthentication()
+        user, auth_token = knoxAuth.authenticate_credentials(token)
+        request.user = user
+        
+        serializer = TodoListSerializer(data=request.data)
+        #serializer.save(todo = Todo.objects.get(request.data["todo"]))
+        if serializer.is_valid():
+            serializer.save(user = request.user, todo = Todo.objects.get(pk =request.data["todo"]))
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
