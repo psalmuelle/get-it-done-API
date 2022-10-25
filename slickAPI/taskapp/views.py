@@ -1,4 +1,5 @@
 from functools import partial
+from wsgiref.util import request_uri
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -43,7 +44,11 @@ def delete_todo(request,pk):
 @api_view(["PUT"])
 def update_todo(request, pk):
     todo = Todo.objects.get(pk=pk)
-    
+    todolist = TodoList(list = request.data.get("list"), completed=request.data.get("list") )
+    todolist.save()
+    upna= {"list" : request.data.get("list"), "completed":request.data.get("list")}
+    todo.lists.add()
+    todo.save()
     serializer = TodoSerializer(todo, data=request.data, partial=True)
     if serializer.is_valid():
        

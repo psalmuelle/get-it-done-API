@@ -52,11 +52,12 @@ class TodoSerializer(serializers.Serializer):
         instance.user = validated_data.get("user", instance.user)
         instance.description = validated_data.get("description", instance.description)
         instance.deadline = validated_data.get("deadline", instance.deadline)
+        instance.lists = validated_data.pop("lists", instance.lists)
        
        
 
         
-        instance.lists.add(validated_data.pop("lists"))
+        
       
         instance.save()
         return instance
